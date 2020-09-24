@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { setProp } from './redux/stores/common/actions';
 
 import {
   HashRouter,
@@ -35,16 +32,4 @@ class Router extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        prop: state.common.prop,
-    };
-};
-
-function mapDispatchToProps(dispatch) {
-    return {
-        setProp: bindActionCreators(setProp, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Router);
+export default Router;

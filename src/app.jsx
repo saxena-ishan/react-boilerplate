@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+// Root Stylesheet
+import './sass/main';
+
 import Router from './Router';
 
 // Redux Config
-import configureStore from './redux/configureStore';
+import { configureStore } from './redux';
 import { Provider } from 'react-redux';
 const store = configureStore();
-
-// Root Stylesheet
-import './sass/main';
 
 class App extends Component {
   render() {

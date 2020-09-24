@@ -1,3 +1,3 @@
 export default {
-    prop: "prop",
-};
+    prop: 42,
+}
