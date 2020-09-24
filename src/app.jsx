@@ -1,20 +1,19 @@
-/*global $*/
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-//Root sass file for webpack to compile
-import './sass/main';
+import { ReactPage } from './pages';
 
-//Initial Default Redux Settings  
-// const store = configureStore();
+import './sass/main';
 
 class App extends Component {
   render() {
     return (
-      <div className="boilerplate-div">react-boilerplate</div>
+        <div className="app-root">
+          Boilerplate
+          <ReactPage/>
+        </div>
     )
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
-
+ReactDOM.render(<App/>, document.getElementById('root'));
