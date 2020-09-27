@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { ReactComponent } from '../components';
+import { connect } from '../redux';
 
-export default class ReactPage extends Component {
+class ReactPage extends Component {
     render() {
         return (
             <div className="react-page-root">
-                Page
+                Page w/ Redux Prop: { this.props.prop }
                 <ReactComponent/>
             </div>
         )
     }
 }
+
+export default connect({
+    props: {
+        common: ["prop"],
+    },
+})(ReactPage);

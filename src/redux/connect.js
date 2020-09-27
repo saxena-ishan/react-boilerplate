@@ -1,5 +1,39 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+
+/**
+ * @private 
+ */
+const mapStateToProps = (props) => {
+    // return null if no props were requested
+    if ([undefined, null].includes(props)) return null;
+    // return the 'mapStateToProps' function
+    return (state) =>
+      Object.entries(props).reduce((_propObj, [store, rawProps]) => {
+        rawProps.forEach((prop) => {
+            _propObj[prop] = state[store][prop];
+        });
+        return _propObj;
+      }, {}); 
+}
+
+/**
+ * @private 
+ */
+const mapDispatchToProps = (actions) => {
+  // return null if no actions were requested
+  if ([undefined, null].includes(actions)) return null;
+  // get redux's action creator
+  const { bindActionCreators } = require("redux");
+  // return the 'mapDispatchToProps' function
+  return (dispatch) =>
+    Object.entries(actions).reduce((_actionObj, [store, rawActions]) => {
+      rawActions.forEach((action) => {
+        const actionFn = require(`./stores/${store}/actions`)[action];
+        _actionObj[action] = bindActionCreators(actionFn, dispatch);
+      });
+      return _actionObj;
+    }, {});
+};
 
 /**
  * @param {Object|null|undefined} props arg format: 
@@ -20,31 +54,4 @@ import { bindActionCreators } from 'redux';
  *        }
  * NOTE: <prop name> and <action function name> are of type 'String'.
  */
-export default function({ props, actions }) {
-    const mapStateToProps = (state) => {
-        if (props === null || props === undefined) return null;
-        var stateConfig = {}
-        Object.entries(props).forEach(([store, _props]) => {
-            _props.forEach((prop) => {
-                stateConfig[prop] = state[store][prop]; 
-            });
-        });
-        return stateConfig;
-    };
-
-    const mapDispatchToProps = (dispatch) => {
-        if (actions === null || actions === undefined) return null;
-        var dispatchConfig = {}
-        Object.entries(actions).forEach(([store, _actions]) => {
-            _actions.forEach((action) => {
-                dispatchConfig[action] = bindActionCreators(
-                    require(`./stores/${store}/actions`)[action], 
-                    dispatch
-                );
-            });
-        });
-        return dispatchConfig;
-    };
-
-    return (Component) => connect(mapStateToProps, mapDispatchToProps)(Component);
-}
+export default ({ props, actions }) => (Component) => connect(mapStateToProps(props), mapDispatchToProps(actions))(Component);

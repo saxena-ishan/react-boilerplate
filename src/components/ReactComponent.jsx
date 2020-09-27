@@ -3,10 +3,10 @@ import { connect } from '../redux';
 
 class ReactComponent extends Component {
     render() {
-        const { prop, setProp } = this.props;
+        const onClick = () => this.props.setProp(Math.floor((Math.random() * 100)));
         return (
-            <div className="react-component-root" onClick={() => setProp(Math.floor((Math.random() * 100)))}>
-                Component w/ Redux Prop: { prop }
+            <div className="react-component-root" onClick={onClick}>
+                Component { this.props.anotherProp }
             </div>
         )
     }
@@ -14,7 +14,7 @@ class ReactComponent extends Component {
 
 export default connect({
     props: {
-        common: ["prop"],
+        common: ["anotherProp"]
     },
     actions: {
         common: ["setProp"],
